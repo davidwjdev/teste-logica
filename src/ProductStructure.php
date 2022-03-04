@@ -1,5 +1,9 @@
 <?php
+
 namespace App;
+
+use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\ArrayKey;
 
 class ProductStructure
 {
@@ -20,7 +24,23 @@ class ProductStructure
 
     public function make(): array
     {
-       //todo your code.
-        return [];
+        $array = self::products;
+        $tmpArray = array();
+        $colors = array();
+        foreach ($array as $value) {
+            $tmpColor = strtok($value, '-');
+            $tmpSize = substr($value, strpos($value, '-') + 1);
+            $tmpArray[$tmpColor][] = $tmpSize;
+        }
+        foreach ($array as $value) {
+            $color = strtok($value, '-');
+            $size = substr($value, strpos($value, '-') + 1);
+            $count = count(array_keys($tmpArray[$color], $size, true));
+            $colors[$color][$size] = $count;
+        }
+
+        // var_dump($colors);
+
+        return $colors;
     }
 }
